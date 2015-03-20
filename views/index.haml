@@ -1,0 +1,36 @@
+.row
+  %h1 Кредитный калькулятор
+  - @errors.each do |error|
+    .alert.alert-danger
+      = error
+  %form#calcData(method="post" action="/payments")
+    .row
+      .col-md-5
+        %label(for="percent") Процентная ставка (%):
+        %input#percent.form-control(type="text" name="percent" value="10.0")
+
+    .row
+      .col-md-5
+        %label(for='amount') Сумма кредита:
+        %input#amount.form-control(type="text" name="amount" value="10000.0")
+
+    .row
+      .col-md-5
+        %label Метод погашения кредита:
+        %p
+          %label.radio-inline
+            %input(type="radio" name="cred_meth" value="1" checked=true) Стандартный
+          %br
+          %label.radio-inline
+            %input(type="radio" name="cred_meth" value="2") Аннуитентный (равными частями)
+
+    .row
+      .col-md-5
+        %label(for="term") Срок кредита (в месяцах):
+        %input#term.form-control(type="text" name="term" value="12")
+
+    .row
+      .col-md-1
+      .col-md-3
+        %br
+        %input.btn.btn-primary(type="submit" value="Показать график платежей")

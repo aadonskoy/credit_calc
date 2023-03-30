@@ -1,18 +1,18 @@
 .panel.panel-default
-  .panel-heading График погашения кредита
+  .panel-heading Payments
   .panel-body
-    %p= "Процентная ставка: #{@credit.percent}"
-    %p= "Сумма кредита: #{@credit.amount}"
-    %p= "Метод погашения: #{@credit.cred_meth}"
+    %p= "Interest Rate: #{@credit.percent}"
+    %p= "Loan Amount: #{@credit.amount}"
+    %p= "Repayment Method: #{@credit.cred_meth}"
   .panel.panel-default
     %table.table
       %thead
         %tr
-          %th № месяца
-          %th Погашение кредита
-          %th Погашение процента %
-          %th Общий взнос
-          %th Остаток кредита
+          %th # month
+          %th Body
+          %th Interest %
+          %th Payment Amount
+          %th Loan Balance
 
       %tbody
         - @credit.payments.each_with_index do |payment, i|
@@ -22,4 +22,4 @@
             %td= payment[:percent]
             %td= payment[:payment]
             %td= payment[:leftover]
-  %a(href="/") Вернуться к заполнению формы
+  %a(href="/") Back to form

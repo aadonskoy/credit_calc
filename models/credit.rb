@@ -1,5 +1,16 @@
+# frozen_string_literal: true
+
 class Credit
-  attr_reader :error_messages, :payments, :percent, :amount, :term
+  include ActiveModel::Validations
+
+  attr_reader :payments, :percent, :amount, :term, :cred_meth
+
+  validates :percent, :amount, :term, presence: true
+  validates :percent, :amount, :term,
+            numericality: { greater_than: 0 }
+  validates_inclusion_of :cred_meth,
+                         in: [1, 2],
+                         message: 'Incorrect credit method'
 
   def initialize(options = {})
     @percent = options.fetch('percent').to_f
@@ -7,37 +18,23 @@ class Credit
     @cred_meth = options.fetch('cred_meth').to_i
     @term = options.fetch('term').to_i
     @payments = []
-    @error_messages = []
-  end
-
-  def valid?
-    validate
-    @error_messages.length == 0
-  end
-
-  def validate
-    @error_messages = []
-    @error_messages << 'Процентная ставка должна быть больше 0.' if @percent <= 0
-    @error_messages << 'Сумма кредита должна быть больше 0.' if @amount <= 0
-    @error_messages << 'Передано неверное значение метода погашения кредита' unless [1, 2].include?(@cred_meth)
-    @error_messages << 'Срок должен быть более 1 месяца' if @term <= 0
-    @error_messages
   end
 
   def calculate
-    return if validate.length > 0
-    return @payments if @payments.length > 0
-    differencial if @cred_meth == 1
-    annuit if @cred_meth == 2
-    @payments
+    return if invalid?
+    return payments if payments.length.positive?
+
+    differencial if cred_meth == 1
+    annuit if cred_meth == 2
+    payments
   end
 
-  def cred_meth
-    case @cred_meth
+  def cred_meth_name
+    case cred_meth
     when 1
-      'Стандартный'
+      'Standard (differencial)'
     when 2
-      'Аннуитентный (равными частями)'
+      'Annuity (Equal payments)'
     else
       ''
     end

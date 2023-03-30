@@ -1,36 +1,36 @@
 .row
-  %h1 Кредитный калькулятор
+  %h1 Credit Calc
   - @errors.each do |error|
     .alert.alert-danger
       = error
   %form#calcData(method="post" action="/payments")
     .row
       .col-md-5
-        %label(for="percent") Процентная ставка (%):
+        %label(for="percent") Percentage Rate (%):
         %input#percent.form-control(type="text" name="percent" value="10.0")
 
     .row
       .col-md-5
-        %label(for='amount') Сумма кредита:
+        %label(for='amount') Loan Amount:
         %input#amount.form-control(type="text" name="amount" value="10000.0")
 
     .row
       .col-md-5
-        %label Метод погашения кредита:
+        %label Turnover:
         %p
           %label.radio-inline
-            %input(type="radio" name="cred_meth" value="1" checked=true) Стандартный
+            %input(type="radio" name="cred_meth" value="1" checked=true) Standard Turnover
           %br
           %label.radio-inline
-            %input(type="radio" name="cred_meth" value="2") Аннуитентный (равными частями)
+            %input(type="radio" name="cred_meth" value="2") Annuall Turnover (equal)
 
     .row
       .col-md-5
-        %label(for="term") Срок кредита (в месяцах):
+        %label(for="term") Period (months):
         %input#term.form-control(type="text" name="term" value="12")
 
     .row
       .col-md-1
       .col-md-3
         %br
-        %input.btn.btn-primary(type="submit" value="Показать график платежей")
+        %input.btn.btn-primary(type="submit" value="Show payments")

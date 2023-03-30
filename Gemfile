@@ -1,6 +1,7 @@
 source 'https://rubygems.org'
 
 gem 'sinatra', :git => 'git@github.com:sinatra/sinatra.git'
+gem 'activemodel'
 gem 'haml'
 
 group :development do
